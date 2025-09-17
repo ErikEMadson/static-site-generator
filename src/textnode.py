@@ -130,7 +130,7 @@ class TextNode:
                         image.group("alt"), TextType.IMAGE, image.group("url")
                     )
                 )
-            next_start = image.end() + 1
+            next_start = image.end()
         result_list.append(TextNode(self.text[next_start:], TextType.PLAIN))
         return result_list
 

@@ -46,7 +46,7 @@ class ParentNode(HTMLNode):
                             [
                                 node.to_html_node()
                                 for node in TextNode.split_text(
-                                    block[heading + 1]
+                                    block[heading:].strip()
                                 )
                             ],
                             block_props,
@@ -69,7 +69,7 @@ class ParentNode(HTMLNode):
                         )
                 case BlockType.QUOTE:
                     quote = "\n".join(
-                        line.group("quote")
+                        line.group("quote").strip()
                         for line in re.finditer(
                             r"[\S\r\n]*>[\S\r\n]*(?P<quote>.*)(?:\r?\n)?", block
                         )
@@ -91,7 +91,7 @@ class ParentNode(HTMLNode):
                     )
                 case BlockType.UNORDERED_LIST:
                     items = [
-                        line.group("item")
+                        line.group("item").strip()
                         for line in re.finditer(
                             r"[\S\r\n]*(?:(?:\*)|(?:\-))[\S\r\n]*(?P<item>.*)(?:\r?\n)?",
                             block,
@@ -111,7 +111,7 @@ class ParentNode(HTMLNode):
                     children.append(ParentNode("ul", list_items, block_props))
                 case BlockType.ORDERED_LIST:
                     items = [
-                        line.group("item")
+                        line.group("item").strip()
                         for line in re.finditer(
                             r"[\S\r\n]*\d+\.[\S\r\n]*(?P<item>.*)(?:\r?\n)?",
                             block,
